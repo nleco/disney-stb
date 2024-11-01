@@ -4,5 +4,6 @@
   "tabWidth": 2,
   "printWidth": 100,
   "bracketSameLine": false,
-  "insertPragma": false
+  "insertPragma": false,
+  "singleQuote": true
 }
