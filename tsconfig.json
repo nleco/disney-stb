@@ -4,11 +4,9 @@
 
     "target": "ES2016",
     "module": "CommonJS",
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@constants/*": ["constants/*"],
-      "@services/*": ["services/*"],
-      "@utils/*": ["utils/*"]
+      "@src/*": ["src/*"]
     },
     "sourceMap": true,
     "outDir": "./dist",

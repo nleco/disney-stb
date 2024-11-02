@@ -1,4 +1,4 @@
-import { URLParameters } from '../types/urls';
+import { URLParameters } from '@src/types';
 
 export function populateURL(url: string, parameters: URLParameters) {
   if (

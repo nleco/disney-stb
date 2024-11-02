@@ -1,4 +1,5 @@
+import { HomePage } from '@src/pages';
 import './scss/main.scss';
 
-const app = document.getElementById('app')!;
-app.innerText = "Sam's house is cool";
+const HP = new HomePage();
+HP.load();

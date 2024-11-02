@@ -7,7 +7,6 @@ module.exports = {
       directory: path.resolve(__dirname, 'dist'),
     },
     port: 3000,
-    open: true,
     hot: true,
   },
 
@@ -22,7 +21,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.scss$/,
+        test: /\.s?css$/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
@@ -42,6 +41,13 @@ module.exports = {
         include: [path.resolve(__dirname, 'src')],
       },
       { test: /\.(png|svg|jpg|jpeg|gif)$/i, type: 'asset/resource' },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'fonts/[name][ext]',
+        },
+      },
     ],
   },
 
@@ -61,6 +67,9 @@ module.exports = {
   ],
 
   resolve: {
+    alias: {
+      '@src': path.resolve(__dirname, 'src'),
+    },
     extensions: ['.ts', '.js'],
   },
 };
