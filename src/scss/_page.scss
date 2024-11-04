@@ -12,4 +12,10 @@ body {
   font-family: Popins, Arial, Helvetica, sans-serif;
   overflow-y: hidden;
   pointer-events: none;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.app {
+  position: relative;
 }

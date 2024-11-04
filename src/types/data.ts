@@ -1,3 +1,4 @@
+import { Loader } from '@src/components';
 import { CollectionGroupData, ContainerData } from '@src/types';
 
 export type KeyValueObject = {
@@ -5,8 +6,7 @@ export type KeyValueObject = {
 };
 
 export type CtxData = {
-  keyBindings?: any;
-  loader: any;
+  loader: Loader;
 };
 
 export type StandardCollectionData = {

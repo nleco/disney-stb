@@ -1,21 +1,22 @@
 import { Media } from '@src/components';
 import { create } from '@src/libs';
-import {
-  ContainerData,
-  ContainerSetData,
-  CtxData,
-  KeyValueObject,
-  TypeCuratedSet,
-  TypeSetRef,
-} from '@src/types';
+import { ContainerData, ContainerSetData, CtxData, TypeCuratedSet, TypeSetRef } from '@src/types';
+
+import { v4 as uuidv4 } from 'uuid';
 
 export class ShelfContainer {
   container: ContainerData;
   ctx: CtxData;
+  selectedMediaIndex: number = 0;
+  mediaList: Media[] = [];
+  el: HTMLElement;
 
   constructor(ctx: CtxData, container: ContainerData) {
     this.container = container;
     this.ctx = ctx;
+
+    this.el = create('div');
+    this.el.id = uuidv4();
   }
 
   private _renderCuratedSet(set: ContainerSetData) {
@@ -23,6 +24,7 @@ export class ShelfContainer {
 
     set.items.forEach((media) => {
       const m = new Media(media);
+      this.mediaList.push(m);
       const mr = m.render();
       mr.classList.add('container-list-item');
       el.push(mr);
@@ -39,14 +41,13 @@ export class ShelfContainer {
   }
 
   public render() {
-    const el = create('div');
-    el.classList.add('nav-root', 'container', this.container.style);
+    this.el.classList.add('nav-root', 'container', this.container.style);
 
     // Title
     const title = create('h2');
     title.classList.add('container-title');
     title.innerText = this.container.set.text.title.full.set!.default.content;
-    el.append(title);
+    this.el.append(title);
 
     // Window
     const container_window = create('div');
@@ -73,8 +74,50 @@ export class ShelfContainer {
     }
 
     container_window.append(container_list);
-    el.append(container_window);
+    this.el.append(container_window);
 
-    return el;
+    return this.el;
   }
+
+  public navNext() {
+    if (this.selectedMediaIndex < this.mediaList.length - 1) {
+      this.navUnhighlight();
+      this.selectedMediaIndex++;
+      this.navHighlight();
+    }
+  }
+
+  public navPrev() {
+    if (0 < this.selectedMediaIndex) {
+      this.navUnhighlight();
+      this.selectedMediaIndex--;
+      this.navHighlight();
+    }
+  }
+
+  public navHighlight() {
+    if (this.mediaList.length) {
+      const media = this.mediaList[this.selectedMediaIndex].el;
+      const offset = media.offsetLeft;
+
+      if (media.parentElement) {
+        media.parentElement.style.left = offset * -1 + 'px';
+        media.classList.add('mod-selected');
+      }
+    }
+  }
+
+  public navUnhighlight() {
+    if (this.mediaList.length) {
+      const id = this.mediaList[this.selectedMediaIndex].id;
+      const media = document.getElementById(id);
+      media && media.classList.remove('mod-selected');
+    }
+  }
+
+  public getTopOffset() {
+    return this.el.offsetTop;
+  }
+
+  public onClick() {}
 }
