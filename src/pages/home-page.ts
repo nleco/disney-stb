@@ -8,10 +8,10 @@ import {
   KEY_RIGHT,
   KEY_UP,
   SHELF_CONTAINER,
-  URL_API_HOME,
 } from '@src/constants';
 import { create } from '@src/libs';
-import { ContainerData, CtxData, StandardCollectionData } from '@src/types';
+import { getHomeData } from '@src/services';
+import { ContainerData, CtxData } from '@src/types';
 
 export class HomePage {
   ctx: CtxData;
@@ -30,21 +30,6 @@ export class HomePage {
     this.elCollections = create('div');
     this.elCollections.classList.add('collections');
     this.elCollections.style.top = '0px';
-  }
-
-  private async _getData() {
-    const response = await fetch(URL_API_HOME);
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
-
-    const json = await response.json();
-
-    if (!json.data?.StandardCollection?.containers) {
-      throw new Error('No Data');
-    }
-
-    return json.data.StandardCollection as StandardCollectionData;
   }
 
   private _loadContainer(container: ContainerData) {
@@ -69,7 +54,7 @@ export class HomePage {
     this.ctx.loader.show();
 
     try {
-      const standard_collection = await this._getData();
+      const standard_collection = await getHomeData();
       standard_collection.containers.forEach((container) => {
         this._loadContainer(container);
       });
@@ -82,7 +67,6 @@ export class HomePage {
   }
 
   private _setTopOffset() {
-    console.log(this.elCollections);
     this.elCollections.style.top =
       this.containers[this.selectedContainerIndex].getTopOffset() * -1 + 'px';
   }

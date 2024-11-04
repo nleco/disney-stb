@@ -9,6 +9,8 @@ export type SetType = typeof TypeSetRef | typeof TypeCuratedSet;
 export type ContainerDataType = typeof SHELF_CONTAINER;
 
 export type ContainerSetData = {
+  refId: string;
+  refType: string;
   contentClass: string;
   items: MediaData[];
   meta: {

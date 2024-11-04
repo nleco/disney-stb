@@ -9,7 +9,7 @@ export type CtxData = {
   loader: Loader;
 };
 
-export type StandardCollectionData = {
+export type CollectionData = {
   callToAction?: string;
   collectionGroup: CollectionGroupData;
   collectionId: string;

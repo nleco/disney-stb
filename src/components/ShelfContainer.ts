@@ -1,5 +1,6 @@
 import { Media } from '@src/components';
 import { create } from '@src/libs';
+import { getRefData } from '@src/services';
 import { ContainerData, ContainerSetData, CtxData, TypeCuratedSet, TypeSetRef } from '@src/types';
 
 import { v4 as uuidv4 } from 'uuid';
@@ -19,7 +20,7 @@ export class ShelfContainer {
     this.el.id = uuidv4();
   }
 
-  private _renderCuratedSet(set: ContainerSetData) {
+  private _renderCuratedSet(set: ContainerSetData, key?: string) {
     const el: HTMLElement[] = [];
 
     set.items.forEach((media) => {
@@ -34,10 +35,16 @@ export class ShelfContainer {
   }
 
   private _renderSetRef(set: ContainerSetData) {
-    const el = create('p');
-    el.innerText = 'Set Ref';
+    return new Promise((resolve, reject) => {
+      const el = create('p');
 
-    return [el];
+      getRefData(set)
+        .then((set2) => {
+          const el = this._renderCuratedSet(set2 as ContainerSetData);
+          resolve(el);
+        })
+        .catch((err) => reject(err));
+    });
   }
 
   public render() {
@@ -66,8 +73,10 @@ export class ShelfContainer {
         break;
 
       case TypeSetRef:
-        r = this._renderSetRef(this.container.set);
-        container_list.append(...r);
+        this._renderSetRef(this.container.set).then((results) => {
+          container_list.append(...(results as HTMLElement[]));
+        });
+
         break;
 
       default:
