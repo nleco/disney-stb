@@ -27,6 +27,7 @@ export type TextData = {
       set?: TextDefaultData;
       series?: TextDefaultData;
       program?: TextDefaultData;
+      default?: TextDefaultData;
     };
   };
 };

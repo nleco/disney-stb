@@ -29,6 +29,7 @@ export class HomePage {
 
     this.elCollections = create('div');
     this.elCollections.classList.add('collections');
+    this.elCollections.style.top = '0px';
   }
 
   private async _getData() {
@@ -81,6 +82,7 @@ export class HomePage {
   }
 
   private _setTopOffset() {
+    console.log(this.elCollections);
     this.elCollections.style.top =
       this.containers[this.selectedContainerIndex].getTopOffset() * -1 + 'px';
   }
@@ -102,7 +104,7 @@ export class HomePage {
           break;
 
         case KEY_DOWN:
-          if (this.selectedContainerIndex < this.containers.length) {
+          if (this.selectedContainerIndex < this.containers.length - 1) {
             this.containers[this.selectedContainerIndex].navUnhighlight();
             this.selectedContainerIndex++;
             this.containers[this.selectedContainerIndex].navHighlight();

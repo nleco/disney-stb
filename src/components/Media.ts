@@ -1,4 +1,4 @@
-import { create, getMediaThumbnail } from '@src/libs';
+import { create, getMediaThumbnail, getMediaTitle } from '@src/libs';
 import { MediaData } from '@src/types';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -28,7 +28,7 @@ export class Media {
 
       const p = create('p');
       p.classList.add('media-no-image-text');
-      p.innerText = 'No Image';
+      p.innerText = getMediaTitle(this.media) || 'No Image';
 
       d.append(p);
       this.el.append(d);
