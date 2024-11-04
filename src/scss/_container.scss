@@ -1,0 +1,57 @@
+@use 'spacing' as s;
+@use 'variables' as v;
+
+$_container_height: s.spacing(17);
+
+.container {
+  margin: s.spacing(1) s.spacing(2);
+  padding: s.spacing(2) 0;
+
+  &-title {
+    font-size: 1rem;
+    margin: 0 0 s.spacing(2) 0;
+  }
+
+  &-window {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: $_container_height;
+  }
+
+  &-list {
+    position: absolute;
+    white-space: nowrap;
+    height: 100%;
+    display: flex;
+
+    &-item {
+      top: 0;
+      width: s.spacing(30);
+      height: 100%;
+      margin: 0 s.spacing(2);
+      border: 1px solid v.$bg-color;
+      background-color: #777;
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      &.mod-selected {
+        border: 1px solid white;
+      }
+
+      .media-image {
+        height: 100%;
+        position: relative;
+
+        .media-image-no-text {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+    }
+  }
+}

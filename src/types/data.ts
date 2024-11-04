@@ -1,68 +1,51 @@
-export type ContainerType = 'StandardCollection';
+import { CollectionGroupData, ContainerData } from '@src/types';
 
-export type StandardCollection = {
+export type KeyValueObject = {
+  [key: string]: string;
+};
+
+export type CtxData = {
+  keyBindings?: any;
+  loader: any;
+};
+
+export type StandardCollectionData = {
   callToAction?: string;
-  collectionGroup: CollectionGroup;
+  collectionGroup: CollectionGroupData;
   collectionId: string;
-  containers: Container[];
+  containers: ContainerData[];
   image: any;
-  text: DataText;
+  text: TextData;
   type: string;
   videoArt: any;
 };
 
-export type DataText = {
+export type TextData = {
   title: {
     full: {
-      collection: {
-        default: {
-          content: string;
-          language: string;
-          sourceEntity: string;
-        };
-      };
+      collection?: TextDefaultData;
+      set?: TextDefaultData;
+      series?: TextDefaultData;
+      program?: TextDefaultData;
     };
   };
 };
 
-export type CollectionGroup = {
-  collectionGroupId: string;
-  contentClass: string;
-  key: string;
-  slugs: Slug[];
+export type TextDefaultData = {
+  default: {
+    content: string;
+    language: string;
+    sourceEntity: string;
+  };
 };
 
-export type Slug = {
+export type SlugData = {
   language: string;
   value: string;
 };
 
-export type Container = {
-  set: {
-    contentClass: string;
-    items: Media[];
-    meta: {
-      hits: number;
-      offset: number;
-      page_size: number;
-    };
-    setId: string;
-    text: DataText;
-    type: 'CuratedSet' | 'SetRef';
-  };
-  type: 'ShelfContainer';
-  style: string;
-};
-
-export type Media = {
-  contentId: string;
-  callToAction: any;
-  image: MediaImage;
-  type: 'DmcVideo' | 'DmcSeries';
-};
-
-export type MediaImage = {
-  title: any;
+export type ImageData = {
+  tile: any;
   background: any;
   hero_tile: any;
 };

@@ -1,3 +1,3 @@
-export * from './container';
-export * from './loader';
-export * from './shelf-container';
+export * from './Loader';
+export * from './Media';
+export * from './ShelfContainer';
