@@ -11,8 +11,11 @@ body {
   pointer-events: none;
   box-sizing: border-box;
   position: relative;
+  height: 100%;
 }
 
 .app {
   position: relative;
+  overflow: hidden;
+  height: 100%;
 }
