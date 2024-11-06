@@ -67,8 +67,8 @@ export class HomePage {
   }
 
   private _setTopOffset() {
-    this.elCollections.style.top =
-      this.containers[this.selectedContainerIndex].getTopOffset() * -1 + 'px';
+    const offset = this.containers[this.selectedContainerIndex].getTopOffset();
+    window.scroll({ top: offset, behavior: 'smooth' });
   }
 
   private _initNavigation() {

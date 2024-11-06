@@ -6,9 +6,6 @@ body {
   margin: 0;
   background-color: v.$bg-color;
   color: v.$text-color;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
   font-family: Popins, Arial, Helvetica, sans-serif;
   overflow-y: hidden;
   pointer-events: none;
