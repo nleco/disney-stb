@@ -20,4 +20,12 @@ export type MediaData = {
   image: ImageData;
   type: MediaType;
   text: TextData;
+  ratings: Rating[];
+};
+
+export type Rating = {
+  advisories: any[];
+  description: string;
+  sytem: string;
+  value: string;
 };

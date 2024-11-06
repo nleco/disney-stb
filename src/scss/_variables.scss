@@ -1,12 +1,10 @@
-$color-primary: red;
-$color-secondary: blue;
-$color-tertiary: blue;
-
-$color-error: red;
-$color-success: green;
-$color-warn: yellow;
-
 $spacing-unit-size: 0.5rem;
 
 $bg-color: #222;
 $text-color: #fff;
+$text-color-dark: #111;
+
+$border-radius: $spacing-unit-size * 0.5;
+
+$pill-default-color: #fff;
+$pill-alt-color: lightblue;

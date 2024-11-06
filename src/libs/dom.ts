@@ -8,3 +8,12 @@ export const text = (text: string) => {
   p.appendChild(t);
   return p.innerHTML;
 };
+
+export const firstValue = (obj: Object) => {
+  if (!obj) {
+    return null;
+  }
+
+  const vals = Object.values(obj);
+  return vals[0];
+};

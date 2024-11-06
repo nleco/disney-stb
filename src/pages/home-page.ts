@@ -1,5 +1,6 @@
-import { Loader, ShelfContainer } from '@src/components';
+import { Loader, Modal, ShelfContainer } from '@src/components';
 import {
+  APP_ID,
   EVENT_KEY_DOWN,
   KEY_DOWN,
   KEY_ENTER,
@@ -9,22 +10,21 @@ import {
   KEY_UP,
   SHELF_CONTAINER,
 } from '@src/constants';
-import { create } from '@src/libs';
+import { create, getApp } from '@src/libs';
 import { getHomeData } from '@src/services';
 import { ContainerData, CtxData } from '@src/types';
 
 export class HomePage {
   ctx: CtxData;
   containers: ShelfContainer[] = [];
-  app: HTMLElement;
   selectedContainerIndex: number = 0;
   elCollections: HTMLElement;
 
   constructor() {
     this.ctx = {
       loader: new Loader(),
+      modal: new Modal(),
     };
-    this.app = document.getElementById('app')!;
     this._initNavigation();
 
     this.elCollections = create('div');
@@ -42,7 +42,7 @@ export class HomePage {
         const c = new ShelfContainer(this.ctx, container);
         this.containers.push(c);
         this.elCollections.append(c.render());
-        this.app.append(this.elCollections);
+        getApp().append(this.elCollections);
         break;
 
       default:
@@ -78,6 +78,9 @@ export class HomePage {
 
       switch (e.key) {
         case KEY_UP:
+          if (this.ctx.modal.isShown()) {
+            return;
+          }
           if (0 < this.selectedContainerIndex) {
             this.containers[this.selectedContainerIndex].navUnhighlight();
             this.selectedContainerIndex--;
@@ -88,6 +91,10 @@ export class HomePage {
           break;
 
         case KEY_DOWN:
+          if (this.ctx.modal.isShown()) {
+            return;
+          }
+
           if (this.selectedContainerIndex < this.containers.length - 1) {
             this.containers[this.selectedContainerIndex].navUnhighlight();
             this.selectedContainerIndex++;
@@ -99,21 +106,27 @@ export class HomePage {
           break;
 
         case KEY_LEFT:
+          if (this.ctx.modal.isShown()) {
+            return;
+          }
+
           this.containers[this.selectedContainerIndex].navPrev();
           break;
 
         case KEY_RIGHT:
+          if (this.ctx.modal.isShown()) {
+            return;
+          }
+
           this.containers[this.selectedContainerIndex].navNext();
           break;
 
         case KEY_ENTER:
-          //todo: show Modal
-          console.log('ENTER');
+          this.containers[this.selectedContainerIndex].onEnter();
           break;
 
         case KEY_ESCAPE:
-          //todo: hide modal if open
-          console.log('ESCAPE');
+          this.containers[this.selectedContainerIndex].onEscape();
           break;
 
         default:

@@ -1,0 +1,15 @@
+@use 'variables' as v;
+@use 'spacing' as s;
+
+.pill {
+  display: inline-block;
+  border-radius: v.$border-radius;
+  background-color: v.$pill-default-color;
+  padding: s.spacing(0.5) s.spacing(1);
+  color: v.$text-color-dark;
+  margin: 0 s.spacing(1);
+}
+
+.pill.mod-alt {
+  background-color: v.$pill-alt-color;
+}

@@ -1,4 +1,5 @@
 import {
+  COLLECTION_KEY,
   DMC_SERIES,
   DMC_SERIES_KEY,
   DMC_VIDEO,
@@ -9,6 +10,7 @@ import {
 } from '@src/constants';
 
 import { MediaData, MediaKey } from '@src/types';
+import { firstValue } from '@src/libs';
 
 const _getKey = (type: string) => {
   let key: MediaKey = STANDARD_COLLECTION_KEY;
@@ -31,14 +33,17 @@ const _getKey = (type: string) => {
 };
 
 export const getMediaThumbnail = (media: MediaData, ratio = TILE_RATIO) => {
-  const key = _getKey(media.type);
-  const url = media.image.tile[ratio][key]?.default.url || '';
+  const url = firstValue(media.image.tile[ratio])?.default.url || '';
   return url;
 };
 
 export const getMediaTitle = (media: MediaData) => {
-  const key = _getKey(media.type);
-  const title = media.text.title.full[key];
+  const t = firstValue(media.text.title.full);
+  let title = t?.default.content || '';
+  return title;
+};
 
-  return title?.default.content;
+export const getMediaBackgroundImage = (media: MediaData, ratio = TILE_RATIO) => {
+  const url = firstValue(media.image.hero_collection[ratio])?.default.url;
+  return url || '';
 };

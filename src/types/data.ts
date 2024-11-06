@@ -1,4 +1,4 @@
-import { Loader } from '@src/components';
+import { Loader, Modal } from '@src/components';
 import { CollectionGroupData, ContainerData } from '@src/types';
 
 export type KeyValueObject = {
@@ -7,6 +7,7 @@ export type KeyValueObject = {
 
 export type CtxData = {
   loader: Loader;
+  modal: Modal;
 };
 
 export type CollectionData = {
@@ -47,6 +48,8 @@ export type SlugData = {
 
 export type ImageData = {
   tile: any;
+  background_details: any;
   background: any;
   hero_tile: any;
+  hero_collection: any;
 };

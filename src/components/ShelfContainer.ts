@@ -20,6 +20,10 @@ export class ShelfContainer {
     this.el.id = uuidv4();
   }
 
+  private _getSelectedMedia() {
+    return this.mediaList[this.selectedMediaIndex];
+  }
+
   private _renderCuratedSet(set: ContainerSetData, key?: string) {
     const el: HTMLElement[] = [];
 
@@ -106,7 +110,7 @@ export class ShelfContainer {
 
   public navHighlight() {
     if (this.mediaList.length) {
-      const media = this.mediaList[this.selectedMediaIndex].el;
+      const media = this._getSelectedMedia().el;
       const offset = media.offsetLeft;
 
       if (media.parentElement) {
@@ -118,7 +122,7 @@ export class ShelfContainer {
 
   public navUnhighlight() {
     if (this.mediaList.length) {
-      const id = this.mediaList[this.selectedMediaIndex].id;
+      const id = this._getSelectedMedia().id;
       const media = document.getElementById(id);
       media && media.classList.remove('mod-selected');
     }
@@ -128,5 +132,11 @@ export class ShelfContainer {
     return this.el.offsetTop;
   }
 
-  public onClick() {}
+  public onEnter() {
+    this.ctx.modal.show(this._getSelectedMedia());
+  }
+
+  public onEscape() {
+    this.ctx.modal.hide();
+  }
 }
