@@ -13,19 +13,32 @@ You can find a live demo at: https://samsanchez.me/disney
 The project was created with v21.6.2.
 
 Download the project, go into the directory and run:
-npm install
-npm run dev
+
+```console
+$ npm install
+$ npm run dev
+```
 
 Open a browser to: http://localhost:3000/
+
+# Build
+
+To build the app, run:
+
+```console
+$ npm build
+```
+
+The app will be found in the `/dist` directory.
 
 # Navigation
 
 The only keys used to navigate are:
 
-- Up/Down arrows : navigate between each collection vertically.
-- Left/Right arrows: navigate each collection horizontally.
+- Up/Down Arrows : navigate between each collection vertically.
+- Left/Right Arrows: navigate each collection horizontally.
 - Enter: Select the selected media.
-- Escape: close the modal.
+- Escape: Close the modal.
 
 # Architecture
 
