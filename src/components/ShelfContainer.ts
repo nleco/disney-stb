@@ -65,8 +65,6 @@ export class ShelfContainer {
 
   private _renderSetRef(set: ContainerSetData) {
     return new Promise((resolve, reject) => {
-      const el = create('p');
-
       getRefData(set)
         .then((set2) => {
           const el = this._renderCuratedSet(set2 as ContainerSetData);
@@ -86,24 +84,24 @@ export class ShelfContainer {
     this.el.append(title);
 
     // Window
-    const container_window = create('div');
-    container_window.classList.add('container-window');
+    const containerWindow = create('div');
+    containerWindow.classList.add('container-window');
 
     // Container List
-    const container_list = create('ul');
-    container_list.classList.add('container-list');
+    const containerList = create('ul');
+    containerList.classList.add('container-list');
 
     let r: HTMLElement[] = [];
 
     switch (this.container.set.type) {
       case TypeCuratedSet:
         r = this._renderCuratedSet(this.container.set);
-        container_list.append(...r);
+        containerList.append(...r);
         break;
 
       case TypeSetRef:
-        container_list.innerHTML = '<p>Loading...</p>';
-        this.ctx.lazyLoader.setLazyLoader(container_list, (el) => {
+        containerList.innerHTML = '<p>Loading...</p>';
+        this.ctx.lazyLoader.setLazyLoader(containerList, (el) => {
           // added small delay to notice the loading
           setTimeout(() => {
             this._renderSetRef(this.container.set).then((results) => {
@@ -119,8 +117,8 @@ export class ShelfContainer {
       default:
     }
 
-    container_window.append(container_list);
-    this.el.append(container_window);
+    containerWindow.append(containerList);
+    this.el.append(containerWindow);
 
     return this.el;
   }

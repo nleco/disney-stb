@@ -54,8 +54,8 @@ export class HomePage {
     this.ctx.loader.show();
 
     try {
-      const standard_collection = await getHomeData();
-      standard_collection.containers.forEach((container) => {
+      const standardCollection = await getHomeData();
+      standardCollection.containers.forEach((container) => {
         this._loadContainer(container);
       });
 
@@ -67,71 +67,79 @@ export class HomePage {
     }
   }
 
+  public unload() {
+    document.body.removeEventListener(EVENT_KEY_DOWN, this._navListener);
+  }
+
   private _setTopOffset() {
     const offset = this.containers[this.selectedContainerIndex].getTopOffset();
     getApp().scroll({ top: offset, behavior: 'smooth' });
   }
 
   private _initNavigation() {
-    document.body.addEventListener(EVENT_KEY_DOWN, (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-
-      switch (e.key) {
-        case KEY_UP:
-          if (this.ctx.modal.isShown()) {
-            return;
-          }
-          if (0 < this.selectedContainerIndex) {
-            this.containers[this.selectedContainerIndex].navUnhighlight();
-            this.selectedContainerIndex--;
-            this.containers[this.selectedContainerIndex].navHighlight();
-
-            this._setTopOffset();
-          }
-          break;
-
-        case KEY_DOWN:
-          if (this.ctx.modal.isShown()) {
-            return;
-          }
-
-          if (this.selectedContainerIndex < this.containers.length - 1) {
-            this.containers[this.selectedContainerIndex].navUnhighlight();
-            this.selectedContainerIndex++;
-            this.containers[this.selectedContainerIndex].navHighlight();
-
-            this._setTopOffset();
-          }
-
-          break;
-
-        case KEY_LEFT:
-          if (this.ctx.modal.isShown()) {
-            return;
-          }
-
-          this.containers[this.selectedContainerIndex].navPrev();
-          break;
-
-        case KEY_RIGHT:
-          if (this.ctx.modal.isShown()) {
-            return;
-          }
-
-          this.containers[this.selectedContainerIndex].navNext();
-          break;
-
-        case KEY_ENTER:
-          this.containers[this.selectedContainerIndex].onEnter();
-          break;
-
-        case KEY_ESCAPE:
-          this.containers[this.selectedContainerIndex].onEscape();
-          break;
-
-        default:
-      }
-    });
+    document.body.addEventListener(EVENT_KEY_DOWN, this._navListener);
   }
+
+  private _navListener = (event: Event) => {
+    const e = event as KeyboardEvent;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    switch (e.key) {
+      case KEY_UP:
+        if (this.ctx.modal.isShown()) {
+          return;
+        }
+        if (0 < this.selectedContainerIndex) {
+          this.containers[this.selectedContainerIndex].navUnhighlight();
+          this.selectedContainerIndex--;
+          this.containers[this.selectedContainerIndex].navHighlight();
+
+          this._setTopOffset();
+        }
+        break;
+
+      case KEY_DOWN:
+        if (this.ctx.modal.isShown()) {
+          return;
+        }
+
+        if (this.selectedContainerIndex < this.containers.length - 1) {
+          this.containers[this.selectedContainerIndex].navUnhighlight();
+          this.selectedContainerIndex++;
+          this.containers[this.selectedContainerIndex].navHighlight();
+
+          this._setTopOffset();
+        }
+
+        break;
+
+      case KEY_LEFT:
+        if (this.ctx.modal.isShown()) {
+          return;
+        }
+
+        this.containers[this.selectedContainerIndex].navPrev();
+        break;
+
+      case KEY_RIGHT:
+        if (this.ctx.modal.isShown()) {
+          return;
+        }
+
+        this.containers[this.selectedContainerIndex].navNext();
+        break;
+
+      case KEY_ENTER:
+        this.containers[this.selectedContainerIndex].onEnter();
+        break;
+
+      case KEY_ESCAPE:
+        this.containers[this.selectedContainerIndex].onEscape();
+        break;
+
+      default:
+    }
+  };
 }

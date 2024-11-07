@@ -16,9 +16,6 @@ export class MediaViewAll {
     this.el.id = this.id;
   }
 
-  onEnter() {
-    console.log(this.set);
-  }
   render() {
     this.el.tabIndex = 0;
     this.el.classList.add('media-view-all');

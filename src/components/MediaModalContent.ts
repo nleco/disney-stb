@@ -38,7 +38,7 @@ export class MediaModalContent {
     }
 
     if (this.media.ratings?.length) {
-      const rating_pills = this.media.ratings.map((rating) => {
+      const ratingPills = this.media.ratings.map((rating) => {
         const el = create('li');
         el.classList.add('pill');
         el.innerText = rating.value;
@@ -46,7 +46,7 @@ export class MediaModalContent {
         return el;
       });
 
-      tag_list = tag_list.concat(rating_pills);
+      tag_list = tag_list.concat(ratingPills);
     }
     tags.append(...tag_list);
 

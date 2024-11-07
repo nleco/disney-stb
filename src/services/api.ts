@@ -11,8 +11,21 @@ const _populateUrl = (url: string, data: { [key: string]: string }) => {
   return new_url;
 };
 
+const _getRequestOptions = () => {
+  // NOTE: Get proper auth/request info from configs.
+
+  const headers = new Headers();
+
+  const requestOptions: RequestInit = {
+    headers,
+  };
+
+  return requestOptions;
+};
+
 export async function getHomeData() {
-  const response = await fetch(URL_API_HOME);
+  const response = await fetch(URL_API_HOME, _getRequestOptions());
+
   if (!response.ok) {
     throw new Error(`Response status: ${response.status}`);
   }
@@ -36,7 +49,7 @@ export function getRefData(set: ContainerSetData) {
       REF_ID: set.refId,
     });
 
-    fetch(url)
+    fetch(url, _getRequestOptions())
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Response status: ${response.status}`);

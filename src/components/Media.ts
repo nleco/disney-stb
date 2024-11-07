@@ -15,10 +15,6 @@ export class Media {
     this.el.id = this.id;
   }
 
-  onEnter() {
-    console.log(this.media);
-  }
-
   render() {
     this.el.tabIndex = 0;
     this.el.classList.add('media');
@@ -37,6 +33,7 @@ export class Media {
       d.append(p);
       this.el.append(d);
     };
+
     img.setAttribute('data-src', getMediaThumbnail(this.media));
     this.el.append(img);
 

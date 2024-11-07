@@ -1,5 +1,4 @@
 import {
-  COLLECTION_KEY,
   DMC_SERIES,
   DMC_SERIES_KEY,
   DMC_VIDEO,
