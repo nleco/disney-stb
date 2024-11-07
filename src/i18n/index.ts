@@ -5,7 +5,7 @@ export type langDictionary = {
 };
 
 export const $t = (key: string) => {
-  //todo: can detect a different language
+  //todo: can detect a different language via a config option.
 
   //@ts-ignore
   return enUS[key] ?? '';

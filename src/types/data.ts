@@ -1,4 +1,5 @@
 import { Loader, Modal } from '@src/components';
+import { LazyLoader } from '@src/libs';
 import { CollectionGroupData, ContainerData } from '@src/types';
 
 export type KeyValueObject = {
@@ -8,6 +9,7 @@ export type KeyValueObject = {
 export type CtxData = {
   loader: Loader;
   modal: Modal;
+  lazyLoader: LazyLoader;
 };
 
 export type CollectionData = {

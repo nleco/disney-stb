@@ -1,0 +1,28 @@
+@use 'spacing' as s;
+@use 'variables' as v;
+
+.media {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  .media-image {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .media-no-image {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: v.$no-image-background-color;
+
+    .media-no-image-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}

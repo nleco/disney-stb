@@ -1,6 +1,5 @@
 import { Loader, Modal, ShelfContainer } from '@src/components';
 import {
-  APP_ID,
   EVENT_KEY_DOWN,
   KEY_DOWN,
   KEY_ENTER,
@@ -10,7 +9,7 @@ import {
   KEY_UP,
   SHELF_CONTAINER,
 } from '@src/constants';
-import { create, getApp } from '@src/libs';
+import { LazyLoader, create, getApp } from '@src/libs';
 import { getHomeData } from '@src/services';
 import { ContainerData, CtxData } from '@src/types';
 
@@ -24,6 +23,7 @@ export class HomePage {
     this.ctx = {
       loader: new Loader(),
       modal: new Modal(),
+      lazyLoader: new LazyLoader(),
     };
     this._initNavigation();
 
@@ -61,6 +61,7 @@ export class HomePage {
 
       this.ctx.loader.hide();
       this.containers[0].navHighlight();
+      this.ctx.lazyLoader.setImages();
     } catch (error: any) {
       console.error(error.message);
     }

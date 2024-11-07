@@ -11,16 +11,20 @@ export class Media {
     this.media = media;
     this.id = uuidv4();
 
-    this.el = create('li');
+    this.el = create('div');
     this.el.id = this.id;
   }
 
-  public render() {
+  onEnter() {
+    console.log(this.media);
+  }
+
+  render() {
     this.el.tabIndex = 0;
     this.el.classList.add('media');
 
     const img = create('img') as HTMLImageElement;
-    img.classList.add('media-image');
+    img.classList.add('media-image', 'js-lazy-load');
     img.onerror = () => {
       img.remove();
       const d = create('div');
@@ -33,7 +37,7 @@ export class Media {
       d.append(p);
       this.el.append(d);
     };
-    img.src = getMediaThumbnail(this.media);
+    img.setAttribute('data-src', getMediaThumbnail(this.media));
     this.el.append(img);
 
     return this.el;

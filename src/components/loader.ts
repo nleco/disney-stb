@@ -12,9 +12,7 @@ export class Loader {
     const loader = document.createElement('div');
     loader.id = SELECTOR_LOADER;
     loader.classList.add('loader');
-    loader.innerHTML = `<div class="loader-body"><p class="text">${$t(
-      'LOADING'
-    )}</p><span class="icon"><div class="</span></div>`;
+    loader.innerHTML = `<div class="loader-body"><p class="loader-text">${$t('LOADING')}</p></div>`;
 
     document.body.appendChild(loader);
   }

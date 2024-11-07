@@ -1,0 +1,14 @@
+@use 'variables' as v;
+@use 'spacing' as s;
+
+.view-all-temp {
+  width: 200px;
+  height: 200px;
+  background-color: v.$primary-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #333;
+  padding: s.spacing(2);
+  text-align: center;
+}

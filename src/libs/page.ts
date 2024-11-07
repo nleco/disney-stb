@@ -6,7 +6,7 @@ const _createApp = () => {
   app.id = APP_ID;
   app.classList.add('app');
 
-  document.body.append(app);
+  document.body.prepend(app);
   return app;
 };
 

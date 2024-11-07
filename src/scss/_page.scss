@@ -9,6 +9,7 @@ body {
   font-family: Popins, Arial, Helvetica, sans-serif;
   overflow-y: hidden;
   pointer-events: none;
+  user-select: none;
   box-sizing: border-box;
   position: relative;
   height: 100%;
@@ -18,4 +19,5 @@ body {
   position: relative;
   overflow: hidden;
   height: 100%;
+  pointer-events: none;
 }

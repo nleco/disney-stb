@@ -1,15 +1,23 @@
-import { Media } from '@src/components';
+import { Media, MediaModalContent, MediaViewAll, ShelfContainerTile } from '@src/components';
 import { create } from '@src/libs';
 import { getRefData } from '@src/services';
-import { ContainerData, ContainerSetData, CtxData, TypeCuratedSet, TypeSetRef } from '@src/types';
+import {
+  ContainerData,
+  ContainerSetData,
+  CtxData,
+  MediaData,
+  TypeCuratedSet,
+  TypeSetRef,
+} from '@src/types';
 
 import { v4 as uuidv4 } from 'uuid';
 
 export class ShelfContainer {
   container: ContainerData;
   ctx: CtxData;
-  selectedMediaIndex: number = 0;
-  mediaList: Media[] = [];
+  selectedTileId: number = 0;
+  tileIds: ShelfContainerTile[] = [];
+  mediaList: (Media | MediaViewAll)[] = [];
   el: HTMLElement;
 
   constructor(ctx: CtxData, container: ContainerData) {
@@ -20,8 +28,12 @@ export class ShelfContainer {
     this.el.id = uuidv4();
   }
 
-  private _getSelectedMedia() {
-    return this.mediaList[this.selectedMediaIndex];
+  private _getSelectedTileContent() {
+    return this.mediaList[this.selectedTileId];
+  }
+
+  private _getSelectedTile() {
+    return this.tileIds[this.selectedTileId];
   }
 
   private _renderCuratedSet(set: ContainerSetData, key?: string) {
@@ -31,9 +43,22 @@ export class ShelfContainer {
       const m = new Media(media);
       this.mediaList.push(m);
       const mr = m.render();
-      mr.classList.add('container-list-item');
-      el.push(mr);
+
+      const tile = new ShelfContainerTile(mr);
+      this.tileIds.push(tile);
+
+      el.push(tile.render());
     });
+
+    if (set.meta.page_size < set.meta.hits) {
+      const seeAllText = new MediaViewAll(set);
+      this.mediaList.push(seeAllText);
+
+      const tile = new ShelfContainerTile(seeAllText.render());
+      this.tileIds.push(tile);
+
+      el.push(tile.render());
+    }
 
     return el;
   }
@@ -77,8 +102,16 @@ export class ShelfContainer {
         break;
 
       case TypeSetRef:
-        this._renderSetRef(this.container.set).then((results) => {
-          container_list.append(...(results as HTMLElement[]));
+        container_list.innerHTML = '<p>Loading...</p>';
+        this.ctx.lazyLoader.setLazyLoader(container_list, (el) => {
+          // added small delay to notice the loading
+          setTimeout(() => {
+            this._renderSetRef(this.container.set).then((results) => {
+              el.innerHTML = '';
+              el.append(...(results as HTMLElement[]));
+              this.ctx.lazyLoader.setImages();
+            });
+          }, 200);
         });
 
         break;
@@ -93,38 +126,39 @@ export class ShelfContainer {
   }
 
   public navNext() {
-    if (this.selectedMediaIndex < this.mediaList.length - 1) {
+    if (this.selectedTileId < this.tileIds.length - 1) {
       this.navUnhighlight();
-      this.selectedMediaIndex++;
+      this.selectedTileId++;
       this.navHighlight();
     }
   }
 
   public navPrev() {
-    if (0 < this.selectedMediaIndex) {
+    if (0 < this.selectedTileId) {
       this.navUnhighlight();
-      this.selectedMediaIndex--;
+      this.selectedTileId--;
       this.navHighlight();
     }
   }
 
   public navHighlight() {
-    if (this.mediaList.length) {
-      const media = this._getSelectedMedia().el;
-      const offset = media.offsetLeft;
+    if (this.tileIds.length) {
+      const tile = this._getSelectedTile().el;
+      const offset = tile.offsetLeft;
 
-      if (media.parentElement) {
-        media.parentElement.style.left = offset * -1 + 'px';
-        media.classList.add('mod-selected');
+      if (tile.parentElement) {
+        tile.parentElement.style.left = offset * -1 + 'px';
+        tile.classList.add('mod-selected');
+        tile.focus();
       }
     }
   }
 
   public navUnhighlight() {
-    if (this.mediaList.length) {
-      const id = this._getSelectedMedia().id;
-      const media = document.getElementById(id);
-      media && media.classList.remove('mod-selected');
+    if (this.tileIds.length) {
+      const id = this._getSelectedTile().id;
+      const tile = document.getElementById(id);
+      tile && tile.classList.remove('mod-selected');
     }
   }
 
@@ -133,7 +167,26 @@ export class ShelfContainer {
   }
 
   public onEnter() {
-    this.ctx.modal.show(this._getSelectedMedia());
+    const content = this._getSelectedTileContent();
+
+    if (content instanceof Media) {
+      this._showMediaModalContent(content.media);
+    } else if (content instanceof MediaViewAll) {
+      this._showMediaViewAll(content.set);
+    }
+  }
+
+  private _showMediaModalContent(media: MediaData) {
+    const mediaModal = new MediaModalContent(media);
+    this.ctx.modal.show(mediaModal.render());
+  }
+
+  private _showMediaViewAll(set: ContainerSetData) {
+    // NOTE: This is where we can load a multiple video page
+    const el = create('div');
+    el.classList.add('view-all-temp');
+    el.innerText = 'Loads new page with all videos.';
+    this.ctx.modal.show(el);
   }
 
   public onEscape() {

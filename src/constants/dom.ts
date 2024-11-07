@@ -7,3 +7,5 @@ export const KEY_ENTER = 'Enter';
 export const KEY_ESCAPE = 'Escape';
 
 export const EVENT_KEY_DOWN = 'keydown';
+
+export const TAG_NAME_IMAGE = 'IMG';
