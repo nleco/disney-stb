@@ -2,13 +2,13 @@ import { URL_API_HOME, URL_API_REF_SETS } from '@src/constants';
 import { ContainerSetData, CollectionData } from '@src/types';
 
 const _populateUrl = (url: string, data: { [key: string]: string }) => {
-  const new_url = Object.keys(data).reduce((prev, curr) => {
+  const newUrl = Object.keys(data).reduce((prev, curr) => {
     const id = data[curr];
 
     return prev.replace(`[:${curr}]`, encodeURI(id));
   }, url);
 
-  return new_url;
+  return newUrl;
 };
 
 const _getRequestOptions = () => {
@@ -58,9 +58,9 @@ export function getRefData(set: ContainerSetData) {
         response
           .json()
           .then((json) => {
-            const ref_set = Object.values(json.data).pop();
+            const refSet = Object.values(json.data).pop();
 
-            resolve(ref_set as ContainerSetData);
+            resolve(refSet as ContainerSetData);
           })
           .catch((err) => reject(err));
       })
